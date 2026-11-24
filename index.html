@@ -156,6 +156,55 @@
       color: var(--primary-text);
     }
 
+    .download {
+      position: relative;
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--primary);
+      color: var(--on-primary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: var(--r-pill);
+      box-shadow: 0 6px 16px rgba(25,186,116,0.30);
+      transition: background 0.15s, transform 0.15s;
+    }
+
+    .download-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .download-btn:focus-visible { outline: 3px solid var(--primary-text); outline-offset: 3px; }
+    .download-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .download-info {
+      font-size: 12px;
+      color: var(--on-surface-var);
+    }
+
+    .download-info strong { color: var(--on-surface); font-weight: 600; }
+
+    .download-note {
+      max-width: 420px;
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      border-radius: var(--r-chip);
+      padding: 10px 14px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .download-note a { color: var(--warning-text); font-weight: 700; }
+
+    #instalacao { scroll-margin-top: 76px; }
+
     .hero-wave {
       margin-top: 36px;
       line-height: 0;
@@ -642,9 +691,9 @@
   <div class="test-banner">
     <span class="test-banner-icon">🧪</span>
     <div>
-      <strong>Aplicativo em fase de testes.</strong>
-      O PETECO ainda não está disponível na loja oficial. Por isso, a instalação é feita
-      pelo arquivo APK enviado pelo WhatsApp.
+      <strong>Projeto de Trabalho de Conclusão de Curso (IFRR), em fase de testes.</strong>
+      O PETECO ainda não está na Play Store e funciona <strong>apenas em celulares Android</strong>
+      (não funciona em iPhone). A instalação é feita pelo arquivo baixado nesta página.
     </div>
   </div>
 
@@ -654,7 +703,21 @@
     </div>
     <h2>Aprenda a usar o PETECO</h2>
     <p>Videos curtos para você começar a usar o app agora mesmo.</p>
-    <div class="hero-badge">📱 Disponível para Android</div>
+    <div class="hero-badge">📱 Somente para Android</div>
+    <div class="download">
+      <a class="download-btn" href="https://github.com/liliangeovana/peteco-tutoriais/releases/latest/download/peteco.apk">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
+        </svg>
+        Baixar o PETECO
+      </a>
+      <div class="download-info"><strong>Versão 1.0.0</strong> &middot; arquivo APK de 61 MB &middot; Android</div>
+      <div class="download-note">
+        ⚠️ Como o app ainda não está na Play Store, o celular pode mostrar avisos como
+        "arquivo prejudicial" ou pedir permissão para instalar. Isso é esperado.
+        Na dúvida, <a href="#instalacao">confira o vídeo de instalação</a> no primeiro tutorial.
+      </div>
+    </div>
     <div class="hero-wave">
       <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0,28 C180,56 360,0 540,28 C720,56 900,4 1080,28 C1260,52 1380,16 1440,28 L1440,56 L0,56 Z" fill="#19BA74"/>
@@ -701,7 +764,7 @@
   <div class="container">
 
     <!-- 1. Instalacao -->
-    <div class="section">
+    <div class="section" id="instalacao">
       <div class="section-label">
         <div class="icon">📲</div>
         <div>
@@ -722,11 +785,21 @@
             </div>
             <div class="card-title">Baixar e instalar o PETECO</div>
             <div class="card-desc">
-              Receba o arquivo de instalação do PETECO pelo WhatsApp e toque nele para abrir.
+              Pelo celular Android, toque em <strong>Baixar o PETECO</strong> no topo desta
+              página e, quando o download terminar, toque no arquivo para abrir.
               O celular pode avisar que o arquivo pode ser prejudicial, mas é normal,
               já que o app ainda está em teste e não vem da loja oficial.
-              Toque em <strong>Abrir arquivo</strong>, depois em <strong>Instalar</strong>
-              e, no fim, em <strong>Abrir</strong>.
+              Toque em <strong>Baixar mesmo assim</strong> ou <strong>Abrir arquivo</strong>,
+              depois em <strong>Instalar</strong> e, no fim, em <strong>Abrir</strong>.
+            </div>
+            <div class="callout callout-warn">
+              <span class="callout-icon">⚠️</span>
+              <div>
+                <strong>Permissão de instalação</strong>
+                Na primeira vez, o Android pode pedir para permitir que o navegador instale
+                apps. Toque em <strong>Configurações</strong>, ative
+                <strong>Permitir desta fonte</strong> e volte para concluir a instalação.
+              </div>
             </div>
             <div class="callout callout-tip">
               <span class="callout-icon">💡</span>
@@ -866,7 +939,7 @@
   <div class="footer-team">
     <img src="assets/images/logo.png" alt="PETECO" class="footer-logo" />
     <div class="inst">Instituto Federal de Roraima</div>
-    <div class="inst-full">IFRR &middot; Projeto desenvolvido por estudantes</div>
+    <div class="inst-full">IFRR &middot; Trabalho de Conclusão de Curso desenvolvido por estudantes</div>
     <div class="team-grid">
       <div class="team-card">
         <strong>Erica Suane</strong>
