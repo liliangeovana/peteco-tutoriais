@@ -151,7 +151,7 @@
 
     .menu-links a:hover { background: var(--primary-container); color: var(--primary-text); }
 
-    #baixar, #instalacao, #publicacoes, #notificacoes, #avaliacao, #contato { scroll-margin-top: 76px; }
+    #baixar, #sobre, #instalacao, #publicacoes, #notificacoes, #avaliacao, #contato { scroll-margin-top: 76px; }
 
     @media (min-width: 860px) {
       .menu-toggle { display: none; }
@@ -175,7 +175,7 @@
     ============================================================ */
     .hero {
       background: var(--surface);
-      padding: 48px 20px 0;
+      padding: 48px 20px 32px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -311,9 +311,9 @@
       gap: 10px;
       max-width: 420px;
       background: var(--primary-container);
-      border: 2px solid var(--primary);
-      border-radius: var(--r-pill);
-      padding: 10px 18px;
+      border: 1px solid var(--primary);
+      border-radius: var(--r-chip);
+      padding: 14px 16px;
       color: var(--primary-text);
       text-decoration: none;
       font-size: 13px;
@@ -327,6 +327,58 @@
     .download-form:hover { background: #D3F1E3; }
     .download-form:focus-visible { outline: 3px solid var(--primary-text); outline-offset: 3px; }
     .download-form strong { font-weight: 700; }
+
+    /* ============================================================
+       SOBRE
+    ============================================================ */
+    .about {
+      background: var(--surface);
+      padding: 0 16px;
+    }
+
+    .about-card {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--surface-soft);
+      border-radius: var(--r-card);
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .about-card h2 {
+      font-size: 19px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .about-card h2::after {
+      content: '';
+      display: block;
+      width: 44px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+      margin: 10px auto 0;
+    }
+
+    .about-card p {
+      font-size: 13.5px;
+      color: var(--on-surface-var);
+      line-height: 1.85;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .about-card .about-origin {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--primary-text);
+      text-align: center;
+      text-align-last: center;
+    }
 
     .hero-wave {
       margin-top: 36px;
@@ -394,6 +446,32 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.10);
     }
 
+    /* animacao de entrada e saida no celular */
+    @media (max-width: 639px) and (prefers-reduced-motion: no-preference) {
+      .reveal-ready .feature-card {
+        opacity: 0;
+        transform: translateX(-32px);
+        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .reveal-ready .feature-card:nth-child(even) { transform: translateX(32px); }
+
+      .reveal-ready .feature-card .feature-card-img {
+        transform: scale(0.8);
+        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+      }
+
+      .reveal-ready .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .reveal-ready .feature-card.is-visible,
+      .reveal-ready .reveal.is-visible { opacity: 1; transform: none; }
+      .reveal-ready .feature-card.is-visible .feature-card-img { transform: none; }
+    }
+
     .feature-card-img {
       width: 100px;
       height: 100px;
@@ -409,6 +487,9 @@
       object-fit: contain;
     }
 
+    /* imagem com muita sobra nas laterais: corta as bordas vazias */
+    .feature-card-img img.img-cover { object-fit: cover; }
+
     .feature-card-body strong {
       display: block;
       font-size: 14px;
@@ -419,7 +500,6 @@
 
     .feature-card-body p {
       text-align: justify;
-      text-align-last: center;
       hyphens: auto;
       font-size: 12.5px;
       color: var(--on-surface-var);
@@ -433,7 +513,6 @@
 
       .feature-card {
         flex-direction: column;
-        text-align: center;
         gap: 16px;
         padding: 28px 20px;
       }
@@ -442,6 +521,8 @@
         width: 140px;
         height: 140px;
       }
+
+      .feature-card-body { width: 100%; }
     }
 
     /* ============================================================
@@ -473,6 +554,8 @@
       display: grid;
       place-items: center;
       font-size: 17px;
+      font-weight: 700;
+      color: var(--primary-text);
       flex-shrink: 0;
     }
 
@@ -572,19 +655,6 @@
       gap: 8px;
     }
 
-    .step-num {
-      width: 26px;
-      height: 26px;
-      background: var(--primary);
-      border-radius: 50%;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--on-primary);
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-    }
-
     .badge {
       display: inline-block;
       padding: 3px 11px;
@@ -639,7 +709,11 @@
       header { padding: 0 40px; height: 68px; }
       header h1 { font-size: 19px; }
 
-      .hero { padding: 72px 40px 0; }
+      .hero { padding: 72px 40px 32px; }
+      .about { padding: 0 40px; }
+      .about-card { padding: 36px 40px; }
+      .about-card h2 { font-size: 22px; }
+      .about-card p { font-size: 14px; }
       .hero p { font-size: 15px; }
       .hero-wave svg { height: 80px; }
 
@@ -696,7 +770,6 @@
 
       .card-meta { gap: 10px; }
 
-      .step-num  { width: 30px; height: 30px; font-size: 13px; }
       .card-title { font-size: 18px; }
       .card-desc  { font-size: 14px; }
       .callout    { font-size: 13px; padding: 12px 16px; }
@@ -846,7 +919,7 @@
       .team-card a { font-size: 13px; }
     }
 
-    /* banner de app em teste */
+    /* banner de aplicativo em teste */
     .test-banner {
       background: var(--warning-bg);
       border-bottom: 1px solid #FCD34D;
@@ -884,6 +957,7 @@
       </button>
       <ul class="menu-links" id="menu-links">
         <li><a href="#baixar">Baixar</a></li>
+        <li><a href="#sobre">O que é</a></li>
         <li><a href="#instalacao">Instalação</a></li>
         <li><a href="#publicacoes">Publicações</a></li>
         <li><a href="#notificacoes">Notificações e mapa</a></li>
@@ -903,7 +977,7 @@
       <img src="assets/images/logo.png" alt="PETECO" />
     </div>
     <h2>Aprenda a usar o PETECO</h2>
-    <p>Videos curtos para você começar a usar o app agora mesmo.</p>
+    <p>Vídeos curtos para você começar a usar o aplicativo agora mesmo.</p>
     <div class="hero-badge">📱 Somente para Android</div>
     <div class="download" id="baixar">
       <ul class="download-notes">
@@ -924,8 +998,33 @@
       </a>
       <div class="download-info"><strong>Versão 1.0.0</strong> &middot; APK de 61 MB</div>
       <a class="download-form" href="https://docs.google.com/forms/d/e/1FAIpQLSe9RkG9vC1gDS-uryTMQvatVFdi9cCAZNUjXWGvqwJMWBvZYg/viewform" target="_blank" rel="noopener">
-        <span><strong>Depois de testar,</strong> por favor, responda ao formulário de avaliação</span>
+        <span><strong>Depois de testar,</strong> por favor, <strong><u>clique aqui</u></strong> para responder ao formulário de avaliação</span>
       </a>
+    </div>
+  </div>
+
+  <div class="about" id="sobre">
+    <div class="about-card reveal">
+      <h2>O que é o PETECO?</h2>
+      <p>
+        O PETECO é um aplicativo que ajuda a reunir animais perdidos e seus tutores.
+        Hoje, quando um animal de estimação some, os avisos se espalham por vários meios, como grupos de
+        mensagens, redes sociais e cartazes, e chegam a pessoas aleatórias, muitas vezes
+        longe de onde o animal desapareceu.
+      </p>
+      <p>
+        O PETECO centraliza essas informações em um só lugar e avisa justamente quem está
+        dentro do raio da busca. O tutor publica fotos e informações, marca no mapa onde o
+        animal foi visto pela última vez e define a área do alerta.
+      </p>
+      <p>
+        Quem encontra um animal na rua também pode registrar o avistamento. Assim, cada
+        pessoa da comunidade ajuda na busca e aumenta as chances de o animal voltar para casa.
+      </p>
+      <p class="about-origin">
+        Desenvolvido por estudantes do Instituto Federal de Roraima (IFRR) como
+        Trabalho de Conclusão de Curso.
+      </p>
     </div>
     <div class="hero-wave">
       <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" aria-hidden="true">
@@ -937,7 +1036,7 @@
   <div class="features">
     <div class="features-title">
       O que você pode fazer com o PETECO
-      <span>Reporte, aviste e ajude a reunir pets e tutores</span>
+      <span>Reporte, aviste e ajude a reunir animais de estimação e tutores</span>
     </div>
     <div class="features-grid">
       <div class="feature-card">
@@ -960,11 +1059,11 @@
       </div>
       <div class="feature-card">
         <div class="feature-card-img">
-          <img src="assets/images/highlight_3.png" alt="Reencontros felizes" />
+          <img src="assets/images/highlight_3.png" alt="Reencontros felizes" class="img-cover" />
         </div>
         <div class="feature-card-body">
           <strong>Reencontros felizes</strong>
-          <p>Com alertas na sua região, aumentam as chances do seu pet voltar para casa.</p>
+          <p>Com alertas na sua região, aumentam as chances do seu animal de estimação voltar para casa.</p>
         </div>
       </div>
     </div>
@@ -975,10 +1074,10 @@
     <!-- 1. Instalacao -->
     <div class="section" id="instalacao">
       <div class="section-label">
-        <div class="icon">📲</div>
+        <div class="icon" aria-hidden="true">1</div>
         <div>
           <h3>Instalação</h3>
-          <p>Como baixar e instalar o app no seu celular</p>
+          <p>Como baixar e instalar o aplicativo no seu celular</p>
         </div>
       </div>
 
@@ -989,32 +1088,22 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <div class="step-num">1</div>
               <span class="badge badge-green">Instalação</span>
             </div>
             <div class="card-title">Baixar e instalar o PETECO</div>
             <div class="card-desc">
-              Pelo celular Android, toque em <strong>Baixar o PETECO</strong> no topo desta
-              página e, quando o download terminar, toque no arquivo para abrir.
-              O celular pode avisar que o arquivo pode ser prejudicial, mas é normal,
-              já que o app ainda está em teste e não vem da loja oficial.
-              Toque em <strong>Baixar mesmo assim</strong> ou <strong>Abrir arquivo</strong>,
-              depois em <strong>Instalar</strong> e, no fim, em <strong>Abrir</strong>.
-            </div>
-            <div class="callout callout-warn">
-              <span class="callout-icon">⚠️</span>
-              <div>
-                <strong>Permissão de instalação</strong>
-                Na primeira vez, o Android pode pedir para permitir que o navegador instale
-                apps. Toque em <strong>Configurações</strong>, ative
-                <strong>Permitir desta fonte</strong> e volte para concluir a instalação.
-              </div>
+              Abra o site de tutoriais no seu celular Android e toque em
+              <strong>Baixar o PETECO</strong>. O celular pode avisar que o arquivo é nocivo,
+              mas é normal, já que o aplicativo ainda está em teste e não vem da loja.
+              Toque em <strong>Baixar mesmo assim</strong>, abra o arquivo e, se pedir, ative
+              <strong>Permitir desta fonte</strong> em <strong>Configurações</strong>.
+              Depois é só tocar em <strong>Instalar</strong>.
             </div>
             <div class="callout callout-tip">
               <span class="callout-icon">💡</span>
               <div>
                 <strong>Dica</strong>
-                Dependendo da marca do celular, as telas podem ser um pouco diferentes.
+                As telas podem variar um pouco conforme a marca do celular.
               </div>
             </div>
           </div>
@@ -1025,10 +1114,10 @@
     <!-- 2. Publicacoes -->
     <div class="section" id="publicacoes">
       <div class="section-label">
-        <div class="icon">📢</div>
+        <div class="icon" aria-hidden="true">2</div>
         <div>
           <h3>Publicações</h3>
-          <p>Como reportar um pet perdido ou um animal avistado</p>
+          <p>Como reportar um animal de estimação perdido ou um animal avistado</p>
         </div>
       </div>
 
@@ -1040,15 +1129,14 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <div class="step-num">2</div>
-              <span class="badge badge-orange">Pet perdido</span>
+              <span class="badge badge-orange">Animal de estimação perdido</span>
             </div>
-            <div class="card-title">Publicar um pet perdido</div>
+            <div class="card-title">Publicar um animal de estimação perdido</div>
             <div class="card-desc">
               Toque em <strong>Publicar</strong> e escolha <strong>"Meu pet sumiu"</strong>.
               Em três etapas, você envia fotos e dados do animal, marca no mapa o
               último lugar onde ele foi visto e define o raio do alerta.
-              No fim, o app mostra dicas para as primeiras horas da busca.
+              No fim, o aplicativo mostra dicas para as primeiras horas da busca.
             </div>
             <div class="callout callout-tip">
               <span class="callout-icon">💡</span>
@@ -1066,7 +1154,6 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <div class="step-num">3</div>
               <span class="badge badge-green">Animal avistado</span>
             </div>
             <div class="card-title">Publicar um animal avistado</div>
@@ -1085,7 +1172,7 @@
     <!-- 3. Notificacoes e mapa -->
     <div class="section" id="notificacoes">
       <div class="section-label">
-        <div class="icon">🔔</div>
+        <div class="icon" aria-hidden="true">3</div>
         <div>
           <h3>Notificações e mapa</h3>
           <p>Alertas, comentários e como explorar o mapa</p>
@@ -1100,12 +1187,11 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <div class="step-num">4</div>
               <span class="badge badge-blue">Notificações</span>
             </div>
             <div class="card-title">Notificação e comentário</div>
             <div class="card-desc">
-              Quando alguém publica um pet perdido perto de você, o PETECO envia uma
+              Quando alguém publica um animal de estimação perdido perto de você, o PETECO envia uma
               notificação. Toque nela para ver os detalhes. Se você viu o animal,
               toque em <strong>"Vi este animal"</strong> e registre o avistamento.
               Você também pode conversar com o dono pelos comentários.
@@ -1127,12 +1213,11 @@
           </div>
           <div class="card-body">
             <div class="card-meta">
-              <div class="step-num">5</div>
               <span class="badge badge-green">Mapa</span>
             </div>
             <div class="card-title">Mapa e Minhas publicações</div>
             <div class="card-desc">
-              Na aba <strong>Mapa</strong>, os pinos laranja são pets perdidos e os
+              Na aba <strong>Mapa</strong>, os pinos laranja são animais de estimação perdidos e os
               verdes são animais avistados. Toque em um pino para ver o resumo e a
               área de busca. No <strong>Perfil</strong>, em
               <strong>Minhas publicações</strong>, você acompanha tudo o que já publicou.
@@ -1183,6 +1268,22 @@
   </footer>
 
   <script>
+    (function () {
+      if (!('IntersectionObserver' in window)) return;
+
+      var cards = document.querySelectorAll('.feature-card, .reveal');
+      document.documentElement.classList.add('reveal-ready');
+
+      // entra ao aparecer na tela e sai ao deixar a tela
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          entry.target.classList.toggle('is-visible', entry.isIntersecting);
+        });
+      }, { threshold: 0.2 });
+
+      cards.forEach(function (card) { observer.observe(card); });
+    })();
+
     (function () {
       var menu = document.querySelector('.menu');
       var toggle = menu.querySelector('.menu-toggle');
