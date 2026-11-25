@@ -116,8 +116,15 @@
     }
 
     .header-brand {
-      display: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
     }
+
+    .logo-mark { display: none; }
 
     header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -310,7 +317,7 @@
       .menu-toggle { display: none; }
       .menu-backdrop { display: none !important; }
       .menu-drawer-header { display: none; }
-      .header-brand { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; overflow: hidden; }
+      .logo-mark { display: block; width: 40px; height: 40px; flex-shrink: 0; }
 
       .menu-links,
       .menu.open .menu-links {
