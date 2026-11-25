@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PETECO: Tutoriais</title>
+  <link rel="icon" type="image/png" href="assets/icon/icon-1024.png" />
+  <script>
+    (function () {
+      var s = localStorage.getItem('theme');
+      var sys = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (s === 'dark' || (!s && sys)) document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
   <style>
     @font-face {
       font-family: 'Poppins';
@@ -44,15 +52,51 @@
       --r-pill:            999px;
     }
 
+    [data-theme="dark"] {
+      --primary:           #22D68A;
+      --primary-dark:      #19BA74;
+      --primary-text:      #4ADE9E;
+      --on-primary:        #0D1117;
+      --primary-container: #0A3D28;
+      --surface-soft:      #0D1117;
+      --surface:           #1A2130;
+      --on-surface:        #F0F4F8;
+      --on-surface-var:    #A8B5C2;
+      --chip:              #2A3545;
+      --warning-bg:        #452A08;
+      --warning-text:      #FDE68A;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: auto; }
 
     body {
       font-family: 'Poppins', sans-serif;
       background: var(--surface-soft);
       color: var(--on-surface);
       min-height: 100vh;
+    }
+
+    /* ============================================================
+       BARRA DE AVISO TOPO
+    ============================================================ */
+    .top-bar {
+      background: var(--warning-bg);
+      color: var(--warning-text);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 7px 16px;
+      line-height: 1.4;
+      border-bottom: 1px solid #FCD34D;
+    }
+
+    [data-theme="dark"] .top-bar { border-bottom-color: #78350f; }
+    .top-bar strong { font-weight: 700; }
+
+    @media (min-width: 860px) {
+      .top-bar { font-size: 13px; padding: 8px 40px; }
     }
 
     /* ============================================================
@@ -71,6 +115,17 @@
       box-shadow: 0 1px 0 var(--chip);
     }
 
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    header h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
     .logo-mark {
       width: 40px;
       height: 40px;
@@ -83,13 +138,18 @@
       object-fit: contain;
     }
 
+    [data-theme="dark"] .logo-mark img {
+      background: #ffffff;
+      padding: 3px;
+    }
+
     header h1 { font-size: 17px; font-weight: 700; }
     header h1 span { color: var(--primary-text); }
 
     /* ============================================================
        MENU
     ============================================================ */
-    .menu { margin-left: auto; position: relative; }
+    .menu { position: relative; }
 
     .menu-toggle {
       display: grid;
@@ -130,9 +190,7 @@
       top: calc(100% + 10px);
       min-width: 220px;
       background: var(--surface);
-      border-radius: 18px;
       padding: 8px;
-      box-shadow: 0 12px 32px rgba(24, 29, 39, 0.16);
     }
 
     .menu.open .menu-links { display: block; }
@@ -151,9 +209,56 @@
 
     .menu-links a:hover { background: var(--primary-container); color: var(--primary-text); }
 
-    #baixar, #sobre, #instalacao, #publicacoes, #notificacoes, #avaliacao, #contato { scroll-margin-top: 76px; }
+    /* switch modo escuro */
+    .theme-switch {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      padding: 0;
+    }
+
+    .theme-switch-icon { display: flex; align-items: center; color: var(--on-surface-var); user-select: none; }
+
+    .theme-switch-track {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: var(--chip);
+      border-radius: var(--r-pill);
+      transition: background 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    [data-theme="dark"] .theme-switch-track { background: var(--primary); }
+
+    .theme-switch-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--surface);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.20);
+      transition: transform 0.25s ease;
+    }
+
+    [data-theme="dark"] .theme-switch-thumb { transform: translateX(20px); }
+
+    /* ancora das secoes */
+    #baixar, #sobre, #instalacao, #publicacoes, #notificacoes, #avaliacao, #contato {
+      scroll-margin-top: 76px;
+    }
 
     @media (min-width: 860px) {
+      header { padding: 0 40px; height: 68px; gap: 16px; }
+      header h1 { font-size: 19px; }
+
       .menu-toggle { display: none; }
 
       .menu-links,
@@ -175,8 +280,7 @@
     ============================================================ */
     .hero {
       background: var(--surface);
-      padding: 48px 20px 32px;
-      text-align: center;
+      padding: 48px 20px 0;
       position: relative;
       overflow: hidden;
     }
@@ -192,10 +296,26 @@
       pointer-events: none;
     }
 
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
     .hero-logo {
       display: block;
       width: 120px;
-      margin: 0 auto 20px;
+      margin: 0 0 20px;
     }
 
     .hero-logo img {
@@ -203,6 +323,8 @@
       height: auto;
       object-fit: contain;
     }
+
+    [data-theme="dark"] .hero-logo img { background: #ffffff; padding: 8px; }
 
     .hero h2 {
       font-size: clamp(20px, 5vw, 28px);
@@ -222,7 +344,7 @@
       margin: 10px auto 0;
     }
 
-    .hero p {
+    .hero-left p {
       text-align: justify;
       text-align-last: center;
       hyphens: auto;
@@ -230,8 +352,8 @@
       font-size: 14px;
       font-weight: 500;
       color: var(--on-surface-var);
-      max-width: 360px;
-      margin: 16px auto 16px;
+      max-width: 380px;
+      margin: 16px 0 16px;
     }
 
     .hero-badge {
@@ -246,45 +368,22 @@
       color: var(--primary-text);
     }
 
-    .download {
-      position: relative;
-      margin-top: 24px;
+    /* coluna direita do hero */
+    .hero-right { width: 100%; }
+
+    .hero-cta-card {
+      background: var(--surface-soft);
+      border-radius: var(--r-card);
+      padding: 20px;
+      border: 1px solid var(--chip);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 10px;
+      align-items: stretch;
+      gap: 14px;
     }
-
-    .download-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--primary);
-      color: var(--on-primary);
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 700;
-      padding: 14px 28px;
-      border-radius: var(--r-pill);
-      box-shadow: 0 6px 16px rgba(25,186,116,0.30);
-      transition: background 0.15s, transform 0.15s;
-    }
-
-    .download-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
-    .download-btn:focus-visible { outline: 3px solid var(--primary-text); outline-offset: 3px; }
-    .download-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
-
-    .download-info {
-      font-size: 12px;
-      color: var(--on-surface-var);
-    }
-
-    .download-info strong { color: var(--on-surface); font-weight: 600; }
 
     .download-notes {
       list-style: none;
-      max-width: 420px;
-      margin-bottom: 8px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -292,24 +391,60 @@
       border: 1px solid #FCD34D;
       border-radius: var(--r-chip);
       padding: 14px 16px;
-      text-align: justify;
-      hyphens: auto;
       font-size: 13px;
       font-weight: 500;
       line-height: 1.8;
       color: var(--warning-text);
+      text-align: justify;
+      hyphens: auto;
     }
+
+    [data-theme="dark"] .download-notes { border-color: #78350f; }
 
     .download-notes li { display: flex; gap: 10px; }
     .download-notes strong { font-weight: 700; }
     .download-notes a { color: var(--warning-text); font-weight: 700; }
 
-    .download-form {
-      margin-top: 6px;
-      display: inline-flex;
+    .download-btn {
+      display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
-      max-width: 420px;
+      background: var(--primary);
+      color: var(--on-primary);
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 24px;
+      border-radius: var(--r-pill);
+      text-decoration: none;
+      transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 14px rgba(25,186,116,0.32);
+    }
+
+    .download-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .download-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(25,186,116,0.42);
+    }
+
+    .download-btn:focus-visible { outline: 3px solid var(--primary-text); outline-offset: 3px; }
+
+    .download-info {
+      font-size: 12px;
+      color: var(--on-surface-var);
+      text-align: center;
+    }
+
+    .download-info strong { color: var(--on-surface); font-weight: 600; }
+
+    .download-form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       background: var(--primary-container);
       border: 1px solid var(--primary);
       border-radius: var(--r-chip);
@@ -320,20 +455,43 @@
       font-weight: 500;
       line-height: 1.45;
       text-align: center;
-      justify-content: center;
       transition: background 0.15s;
     }
 
     .download-form:hover { background: #D3F1E3; }
+    [data-theme="dark"] .download-form:hover { background: #0d4d31; }
     .download-form:focus-visible { outline: 3px solid var(--primary-text); outline-offset: 3px; }
     .download-form strong { font-weight: 700; }
+
+    /* ============================================================
+       ANIMACOES DE ENTRADA (mobile)
+    ============================================================ */
+    @keyframes peteco-fade-down {
+      from { opacity: 0; transform: translateY(-22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes peteco-fade-up {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 859px) and (prefers-reduced-motion: no-preference) {
+      .hero-logo           { animation: peteco-fade-down 0.5s ease both; }
+      .hero-left h2        { animation: peteco-fade-up 0.5s 0.10s ease both; }
+      .hero-left p         { animation: peteco-fade-up 0.5s 0.20s ease both; }
+      .hero-badge          { animation: peteco-fade-up 0.5s 0.30s ease both; }
+      .download-notes      { animation: peteco-fade-up 0.52s 0.38s ease both; }
+      .download-btn        { animation: peteco-fade-up 0.52s 0.48s ease both; }
+      .download-form       { animation: peteco-fade-up 0.52s 0.56s ease both; }
+    }
 
     /* ============================================================
        SOBRE
     ============================================================ */
     .about {
       background: var(--surface);
-      padding: 0 16px;
+      padding: 32px 16px 0;
     }
 
     .about-card {
@@ -377,20 +535,16 @@
       font-weight: 600;
       color: var(--primary-text);
       text-align: center;
-      text-align-last: center;
     }
 
     .hero-wave {
-      margin-top: 36px;
+      margin-top: 32px;
       line-height: 0;
       position: relative;
+      z-index: 1;
     }
 
-    .hero-wave svg {
-      display: block;
-      width: 100%;
-      height: 56px;
-    }
+    .hero-wave svg { display: block; width: 100%; height: 56px; }
 
     /* ============================================================
        FEATURES STRIP
@@ -446,25 +600,25 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.10);
     }
 
-    /* animacao de entrada e saida no celular */
+    /* animacao dos feature-cards no mobile */
     @media (max-width: 639px) and (prefers-reduced-motion: no-preference) {
       .reveal-ready .feature-card {
         opacity: 0;
         transform: translateX(-32px);
-        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1);
       }
 
       .reveal-ready .feature-card:nth-child(even) { transform: translateX(32px); }
 
       .reveal-ready .feature-card .feature-card-img {
         transform: scale(0.8);
-        transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s;
+        transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.15s;
       }
 
       .reveal-ready .reveal {
         opacity: 0;
         transform: translateY(28px);
-        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1);
       }
 
       .reveal-ready .feature-card.is-visible,
@@ -481,13 +635,7 @@
       justify-content: center;
     }
 
-    .feature-card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    /* imagem com muita sobra nas laterais: corta as bordas vazias */
+    .feature-card-img img { width: 100%; height: 100%; object-fit: contain; }
     .feature-card-img img.img-cover { object-fit: cover; }
 
     .feature-card-body strong {
@@ -507,9 +655,7 @@
     }
 
     @media (min-width: 640px) {
-      .features-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      .features-grid { grid-template-columns: repeat(3, 1fr); }
 
       .feature-card {
         flex-direction: column;
@@ -517,11 +663,7 @@
         padding: 28px 20px;
       }
 
-      .feature-card-img {
-        width: 140px;
-        height: 140px;
-      }
-
+      .feature-card-img { width: 140px; height: 140px; }
       .feature-card-body { width: 100%; }
     }
 
@@ -585,7 +727,7 @@
 
     .card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(25, 186, 116, 0.14);
+      box-shadow: 0 8px 24px rgba(25,186,116,0.14);
     }
 
     .video-wrap {
@@ -596,51 +738,7 @@
       overflow: hidden;
     }
 
-    .video-wrap iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-
-    .video-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: linear-gradient(135deg, var(--primary-container) 0%, var(--chip) 100%);
-    }
-
-    .play-icon {
-      width: 52px;
-      height: 52px;
-      background: var(--primary);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      transition: transform 0.15s ease;
-    }
-
-    .card:hover .play-icon { transform: scale(1.08); }
-
-    .play-icon::after {
-      content: '';
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 8px 0 8px 16px;
-      border-color: transparent transparent transparent var(--on-primary);
-      margin-left: 3px;
-    }
-
-    .video-placeholder span {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--primary-text);
-    }
+    .video-wrap iframe { width: 100%; height: 100%; border: 0; display: block; }
 
     .card-body {
       padding: 20px 20px 24px;
@@ -649,11 +747,7 @@
       gap: 10px;
     }
 
-    .card-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .card-meta { display: flex; align-items: center; gap: 8px; }
 
     .badge {
       display: inline-block;
@@ -665,15 +759,13 @@
     }
 
     .badge-green  { background: var(--primary-container); color: var(--primary-text); }
-    .badge-orange { background: #FEF3C7;  color: #92400E; }
-    .badge-blue   { background: #DBEAFE;  color: #1E40AF; }
+    .badge-orange { background: #FEF3C7; color: #92400E; }
+    .badge-blue   { background: #DBEAFE; color: #1E40AF; }
 
-    .card-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--on-surface);
-      line-height: 1.35;
-    }
+    [data-theme="dark"] .badge-orange { background: #3D2208; color: #FCD34D; }
+    [data-theme="dark"] .badge-blue   { background: #1e3a5f; color: #93C5FD; }
+
+    .card-title { font-size: 15px; font-weight: 700; color: var(--on-surface); line-height: 1.35; }
 
     .card-desc {
       text-align: justify;
@@ -700,92 +792,6 @@
     .callout-icon { font-size: 14px; flex-shrink: 0; margin-top: 2px; }
     .callout strong { font-weight: 700; }
     .callout > div > strong:first-child { display: block; margin-bottom: 1px; }
-
-    /* ============================================================
-       DESKTOP (>= 860px)
-    ============================================================ */
-    @media (min-width: 860px) {
-
-      header { padding: 0 40px; height: 68px; }
-      header h1 { font-size: 19px; }
-
-      .hero { padding: 72px 40px 32px; }
-      .about { padding: 0 40px; }
-      .about-card { padding: 36px 40px; }
-      .about-card h2 { font-size: 22px; }
-      .about-card p { font-size: 14px; }
-      .hero p { font-size: 15px; }
-      .hero-wave svg { height: 80px; }
-
-      .hero-logo { width: 140px; }
-
-      .features { padding: 64px 40px; }
-
-      .features-title { font-size: 18px; margin-bottom: 48px; }
-      .features-title span { font-size: 13px; }
-
-      .container {
-        max-width: 1080px;
-        padding: 56px 40px 96px;
-      }
-
-      .section { margin-bottom: 68px; }
-
-      .section-label { margin-bottom: 28px; }
-      .section-label .icon { width: 42px; height: 42px; font-size: 20px; }
-      .section-label h3 { font-size: 18px; }
-      .section-label p  { font-size: 13px; }
-
-      .cards-grid,
-      .cards-grid.two-col {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-      }
-
-      .card {
-        flex-direction: row;
-        align-items: stretch;
-      }
-
-      .video-wrap {
-        width: 360px;
-        aspect-ratio: unset;
-        min-height: 480px;
-        flex-shrink: 0;
-      }
-
-      .video-wrap iframe {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .card-body {
-        flex: 1;
-        padding: 36px 40px;
-        justify-content: center;
-        gap: 16px;
-      }
-
-      .card-meta { gap: 10px; }
-
-      .card-title { font-size: 18px; }
-      .card-desc  { font-size: 14px; }
-      .callout    { font-size: 13px; padding: 12px 16px; }
-    }
-
-    /* ============================================================
-       RODAPE
-    ============================================================ */
-    footer {
-      text-align: center;
-      padding: 24px 16px;
-      font-size: 12px;
-      color: var(--on-surface-var);
-    }
-
-    footer span { color: var(--primary-text); font-weight: 600; }
 
     /* ============================================================
        AVALIACAO
@@ -840,77 +846,198 @@
     .feedback-btn:hover { background: var(--primary-dark); }
     .feedback-btn:focus-visible { outline: 3px solid var(--primary-text); outline-offset: 3px; }
 
+    /* ============================================================
+       DESKTOP (>= 860px)
+    ============================================================ */
     @media (min-width: 860px) {
+
+      .hero { padding: 72px 40px 0; }
+      .hero-wave svg { height: 80px; }
+
+      .hero-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 72px;
+        align-items: center;
+      }
+
+      .hero-left {
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .hero h2::after { margin: 10px 0 0; }
+      .hero-left p { font-size: 15px; max-width: none; text-align: left; text-align-last: left; }
+      .hero-logo { width: 140px; }
+
+      .hero-cta-card { padding: 28px; gap: 18px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+
+      .about { padding: 32px 40px 0; }
+      .about-card { padding: 36px 40px; }
+      .about-card h2 { font-size: 22px; }
+      .about-card p { font-size: 14px; }
+
+      .features { padding: 64px 40px; }
+      .features-title { font-size: 18px; margin-bottom: 48px; }
+      .features-title span { font-size: 13px; }
+
+      .container { max-width: 1080px; padding: 56px 40px 96px; }
+
+      .section { margin-bottom: 68px; }
+      .section-label { margin-bottom: 28px; }
+      .section-label .icon { width: 42px; height: 42px; font-size: 20px; }
+      .section-label h3 { font-size: 18px; }
+      .section-label p  { font-size: 13px; }
+
+      .cards-grid,
+      .cards-grid.two-col { flex-direction: column; gap: 24px; }
+
+      .card { flex-direction: row; align-items: stretch; }
+
+      .video-wrap {
+        width: 360px;
+        aspect-ratio: unset;
+        min-height: 480px;
+        flex-shrink: 0;
+      }
+
+      .card-body { flex: 1; padding: 36px 40px; justify-content: center; gap: 16px; }
+      .card-meta { gap: 10px; }
+      .card-title { font-size: 18px; }
+      .card-desc  { font-size: 14px; }
+      .callout    { font-size: 13px; padding: 12px 16px; }
+
       .feedback { padding: 40px; }
       .feedback h3 { font-size: 20px; }
       .feedback p { font-size: 14px; }
     }
 
-    .footer-team {
+    /* ============================================================
+       QUEM SOMOS
+    ============================================================ */
+    .team-section {
       background: var(--surface);
       border-top: 1px solid var(--chip);
-      padding: 40px 20px 48px;
+      padding: 56px 20px 64px;
       text-align: center;
     }
 
-    .footer-logo {
-      width: 72px;
-      height: 72px;
+    .team-section-logo {
+      width: 64px;
+      height: 64px;
       object-fit: contain;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      border-radius: 12px;
     }
 
-    .footer-team .inst {
+    [data-theme="dark"] .team-section-logo { background: #ffffff; padding: 5px; }
+
+    .team-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin-bottom: 6px;
+    }
+
+    .team-section h2::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+      margin: 10px auto 0;
+    }
+
+    .team-section .team-inst {
       font-size: 13px;
-      font-weight: 600;
-      color: var(--primary-text);
-      margin-bottom: 4px;
-    }
-
-    .footer-team .inst-full {
-      font-size: 12px;
       color: var(--on-surface-var);
-      margin-bottom: 28px;
+      margin-top: 12px;
+      margin-bottom: 40px;
+      line-height: 1.6;
     }
 
-    .team-grid {
+    .team-section .team-inst strong {
+      color: var(--primary-text);
+      font-weight: 600;
+    }
+
+    .team-cards {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      width: 100%;
+      gap: 24px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
-    .team-grid .team-card {
-      flex: 1 1 220px;
+    .team-member {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      flex: 1 1 180px;
+      max-width: 220px;
     }
 
-    .team-card {
-      background: var(--surface-soft);
-      border-radius: var(--r-chip);
-      padding: 8px 14px;
-      text-align: left;
+    .team-member-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 20%;
+      border: 3px solid var(--primary-container);
     }
 
-    .team-card strong {
+    [data-theme="dark"] .team-member-photo {
+      border-color: var(--primary);
+    }
+
+    .team-member-info strong {
       display: block;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 700;
       color: var(--on-surface);
       margin-bottom: 2px;
     }
 
-    .team-card a {
+    .team-member-info span {
       display: block;
+      font-size: 12px;
+      color: var(--on-surface-var);
+      margin-bottom: 4px;
+    }
+
+    .team-member-info a {
       font-size: 11.5px;
       color: var(--primary-text);
       text-decoration: none;
-      font-weight: 400;
       word-break: break-all;
     }
 
-    .team-card a:hover { text-decoration: underline; }
+    .team-member-info a:hover { text-decoration: underline; }
+
+    @media (min-width: 860px) {
+      .team-section { padding: 64px 40px 72px; }
+      .team-section h2 { font-size: 22px; }
+      .team-member-photo { width: 120px; height: 120px; }
+      .team-member-info strong { font-size: 15px; }
+    }
+
+    /* ============================================================
+       RODAPE
+    ============================================================ */
+
+    footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: var(--on-surface-var);
+    }
+
+    footer span { color: var(--primary-text); font-weight: 600; }
 
     @media (min-width: 860px) {
       .footer-team { padding: 48px 40px 56px; }
@@ -918,39 +1045,20 @@
       .footer-team .inst-full { font-size: 13px; }
       .team-card a { font-size: 13px; }
     }
-
-    /* banner de aplicativo em teste */
-    .test-banner {
-      background: var(--warning-bg);
-      border-bottom: 1px solid #FCD34D;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 12.5px;
-      color: var(--warning-text);
-      line-height: 1.45;
-      text-align: center;
-    }
-
-    .test-banner-icon { font-size: 15px; flex-shrink: 0; }
-    .test-banner strong { font-weight: 700; }
-
-    @media (min-width: 860px) {
-      .test-banner { padding: 10px 40px; font-size: 13.5px; }
-    }
   </style>
 </head>
 <body>
 
+  <div class="top-bar">🧪 <strong>Aplicativo em fase de testes</strong> &middot; Trabalho de Conclusão de Curso do IFRR</div>
+
   <header>
-    <div class="logo-mark">
-      <img src="assets/icon/icon-1024.png" alt="PETECO" />
-    </div>
-    <div>
+    <div class="header-brand">
+      <div class="logo-mark">
+        <img src="assets/icon/icon-1024.png" alt="PETECO" />
+      </div>
       <h1>PETECO <span>Tutoriais</span></h1>
     </div>
+
     <nav class="menu" aria-label="Menu da página">
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-links" aria-label="Abrir menu">
         <span class="menu-toggle-icon" aria-hidden="true"></span>
@@ -960,46 +1068,74 @@
         <li><a href="#sobre">O que é</a></li>
         <li><a href="#instalacao">Instalação</a></li>
         <li><a href="#publicacoes">Publicações</a></li>
-        <li><a href="#notificacoes">Notificações e mapa</a></li>
+        <li><a href="#notificacoes">Notificações</a></li>
         <li><a href="#avaliacao">Avaliação</a></li>
-        <li><a href="#contato">Contato</a></li>
+        <li><a href="#contato">Quem somos</a></li>
       </ul>
     </nav>
+
+    <button class="theme-switch" id="themeToggle" role="switch" aria-checked="false" aria-label="Modo escuro">
+      <span class="theme-switch-icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="12" cy="4"  r="1.5"/>
+          <circle cx="12" cy="20" r="1.5"/>
+          <circle cx="4"  cy="12" r="1.5"/>
+          <circle cx="20" cy="12" r="1.5"/>
+          <circle cx="6.34"  cy="6.34"  r="1.2"/>
+          <circle cx="17.66" cy="17.66" r="1.2"/>
+          <circle cx="17.66" cy="6.34"  r="1.2"/>
+          <circle cx="6.34"  cy="17.66" r="1.2"/>
+        </svg>
+      </span>
+      <span class="theme-switch-track">
+        <span class="theme-switch-thumb"></span>
+      </span>
+      <span class="theme-switch-icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </span>
+    </button>
   </header>
 
-  <div class="test-banner">
-    <span class="test-banner-icon">🧪</span>
-    <span><strong>Aplicativo em fase de testes</strong> &middot; Trabalho de Conclusão de Curso do IFRR</span>
-  </div>
-
   <div class="hero">
-    <div class="hero-logo">
-      <img src="assets/images/logo.png" alt="PETECO" />
-    </div>
-    <h2>Aprenda a usar o PETECO</h2>
-    <p>Vídeos curtos para você começar a usar o aplicativo agora mesmo.</p>
-    <div class="hero-badge">📱 Somente para Android</div>
-    <div class="download" id="baixar">
-      <ul class="download-notes">
-        <li>
-          <span aria-hidden="true">⚠️</span>
-          <span><strong>Avisos na instalação:</strong> o celular pode mostrar alertas. É normal. <a href="#instalacao">Veja como instalar</a>.</span>
-        </li>
-        <li>
-          <span aria-hidden="true">🔒</span>
-          <span><strong>Período de testes:</strong> o teste dura alguns dias. Os dados cadastrados serão usados só para fins acadêmicos e apagados ao final.</span>
-        </li>
-      </ul>
-      <a class="download-btn" href="https://github.com/liliangeovana/peteco-tutoriais/releases/latest/download/peteco.apk">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
-        </svg>
-        Baixar o PETECO
-      </a>
-      <div class="download-info"><strong>Versão 1.0.0</strong> &middot; APK de 61 MB</div>
-      <a class="download-form" href="https://docs.google.com/forms/d/e/1FAIpQLSe9RkG9vC1gDS-uryTMQvatVFdi9cCAZNUjXWGvqwJMWBvZYg/viewform" target="_blank" rel="noopener">
-        <span><strong>Depois de testar,</strong> por favor, <strong><u>clique aqui</u></strong> para responder ao formulário de avaliação</span>
-      </a>
+    <div class="hero-inner">
+
+      <div class="hero-left">
+        <div class="hero-logo">
+          <img src="assets/images/logo.png" alt="PETECO" />
+        </div>
+        <h2>Aprenda a usar o PETECO</h2>
+        <p>Vídeos curtos para você começar a usar o aplicativo agora mesmo.</p>
+        <div class="hero-badge">📱 Somente para Android</div>
+      </div>
+
+      <div class="hero-right" id="baixar">
+        <div class="hero-cta-card">
+          <ul class="download-notes">
+            <li>
+              <span aria-hidden="true">⚠️</span>
+              <span><strong>Avisos na instalação:</strong> o celular pode mostrar alertas. É normal. <a href="#instalacao">Veja como instalar</a>.</span>
+            </li>
+            <li>
+              <span aria-hidden="true">🔒</span>
+              <span><strong>Período de testes:</strong> o teste dura alguns dias. Os dados cadastrados serão usados só para fins acadêmicos e apagados ao final.</span>
+            </li>
+          </ul>
+          <a class="download-btn" href="https://drive.google.com/file/d/19wFbgYo8C6nnEESu-XqVWkOMSeKbanHo/view?usp=sharing" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
+            </svg>
+            Baixar o PETECO
+          </a>
+          <div class="download-info"><strong>Versão 1.0.0</strong> &middot; APK de 61 MB</div>
+          <a class="download-form" href="https://docs.google.com/forms/d/e/1FAIpQLSe9RkG9vC1gDS-uryTMQvatVFdi9cCAZNUjXWGvqwJMWBvZYg/viewform" target="_blank" rel="noopener">
+            <span><strong>Depois de testar,</strong> por favor, <strong><u>clique aqui</u></strong> para responder ao formulário de avaliação</span>
+          </a>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1063,7 +1199,7 @@
         </div>
         <div class="feature-card-body">
           <strong>Reencontros felizes</strong>
-          <p>Com alertas na sua região, aumentam as chances do seu animal de estimação voltar para casa.</p>
+          <p>Com alertas na sua região, mais pessoas ficam de olho e as chances de reencontro aumentam. O PETECO apoia a busca, mas o resultado depende da comunidade.</p>
         </div>
       </div>
     </div>
@@ -1082,7 +1218,7 @@
       </div>
 
       <div class="cards-grid">
-        <div class="card">
+        <div class="card reveal">
           <div class="video-wrap">
             <iframe src="https://drive.google.com/file/d/19wFbgYo8C6nnEESu-XqVWkOMSeKbanHo/preview" allow="autoplay" allowfullscreen></iframe>
           </div>
@@ -1123,7 +1259,7 @@
 
       <div class="cards-grid two-col">
 
-        <div class="card">
+        <div class="card reveal">
           <div class="video-wrap">
             <iframe src="https://drive.google.com/file/d/1VYfUOpFw4B1ptHlHJNXweqfuXwrA7SCI/preview" allow="autoplay" allowfullscreen></iframe>
           </div>
@@ -1148,7 +1284,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card reveal">
           <div class="video-wrap">
             <iframe src="https://drive.google.com/file/d/16ahd8WInokpTp3t6vJPmMPEoceQerSL5/preview" allow="autoplay" allowfullscreen></iframe>
           </div>
@@ -1181,7 +1317,7 @@
 
       <div class="cards-grid two-col">
 
-        <div class="card">
+        <div class="card reveal">
           <div class="video-wrap">
             <iframe src="https://drive.google.com/file/d/1VMMdFAWRoiw5uotlAtqHfWpjrfc-sk3w/preview" allow="autoplay" allowfullscreen></iframe>
           </div>
@@ -1207,7 +1343,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card reveal">
           <div class="video-wrap">
             <iframe src="https://drive.google.com/file/d/18JfxCXRtVmUvxAJ9epGZNfv9qB2Ra2y3/preview" allow="autoplay" allowfullscreen></iframe>
           </div>
@@ -1243,25 +1379,48 @@
 
   </div>
 
-  <div class="footer-team" id="contato">
-    <img src="assets/images/logo.png" alt="PETECO" class="footer-logo" />
-    <div class="inst">Instituto Federal de Roraima</div>
-    <div class="inst-full">IFRR &middot; Trabalho de Conclusão de Curso desenvolvido por estudantes</div>
-    <div class="team-grid">
-      <div class="team-card">
-        <strong>Erica Suane</strong>
-        <a href="mailto:erica.suane@academico.ifrr.edu.br">erica.suane@academico.ifrr.edu.br</a>
+  <section class="team-section" id="contato">
+    <img src="assets/images/logo.png" alt="PETECO" class="team-section-logo" />
+    <h2>Quem somos</h2>
+    <p class="team-inst">
+      Estudantes do <strong>Instituto Federal de Roraima (IFRR)</strong><br>
+      Trabalho de Conclusão de Curso &middot; Boa Vista (RR)
+    </p>
+    <div class="team-cards">
+      <div class="team-member">
+        <img src="assets/images/students/erica.jpeg" alt="Foto de Erica Suane" class="team-member-photo" style="object-position: center 35%;" />
+        <div class="team-member-info">
+          <strong>Erica Suane</strong>
+          <span>Desenvolvedora</span>
+          <a href="mailto:erica.suane@academico.ifrr.edu.br">erica.suane@academico.ifrr.edu.br</a>
+        </div>
       </div>
-      <div class="team-card">
-        <strong>Lílian Geovana</strong>
-        <a href="mailto:lilian.geovana@academico.ifrr.edu.br">lilian.geovana@academico.ifrr.edu.br</a>
+      <div class="team-member">
+        <img src="assets/images/students/lilian.JPG" alt="Foto de Lílian Geovana" class="team-member-photo" style="object-position: center 25%;" />
+        <div class="team-member-info">
+          <strong>Lílian Geovana</strong>
+          <span>Desenvolvedora</span>
+          <a href="mailto:lilian.geovana@academico.ifrr.edu.br">lilian.geovana@academico.ifrr.edu.br</a>
+        </div>
       </div>
-      <div class="team-card">
-        <strong>Bruno Rodrigues</strong>
-        <a href="mailto:bruno.p@academico.ifrr.edu.br">bruno.p@academico.ifrr.edu.br</a>
+      <div class="team-member">
+        <img src="assets/images/students/bruno.jpeg" alt="Foto de Bruno Rodrigues" class="team-member-photo" />
+        <div class="team-member-info">
+          <strong>Bruno Rodrigues</strong>
+          <span>Desenvolvedor</span>
+          <a href="mailto:bruno.p@academico.ifrr.edu.br">bruno.p@academico.ifrr.edu.br</a>
+        </div>
+      </div>
+      <div class="team-member">
+        <img src="assets/images/students/george.jpg" alt="Foto de George Oliveira" class="team-member-photo" />
+        <div class="team-member-info">
+          <strong>George Oliveira</strong>
+          <span>Orientador</span>
+          <a href="mailto:george.oliveira@ifrr.edu.br">george.oliveira@ifrr.edu.br</a>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <footer>
     Feito com <span>&#10084;</span> pela equipe <span>PETECO</span> &middot; Boa Vista (RR)
@@ -1269,45 +1428,96 @@
 
   <script>
     (function () {
+      /* dark mode toggle */
+      var html   = document.documentElement;
+      var toggle = document.getElementById('themeToggle');
+
+      function isDark() { return html.getAttribute('data-theme') === 'dark'; }
+
+      function syncSwitch() {
+        toggle.setAttribute('aria-checked', isDark() ? 'true' : 'false');
+      }
+
+      syncSwitch();
+
+      toggle.addEventListener('click', function () {
+        var next = isDark() ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        syncSwitch();
+      });
+
+      /* menu dropdown */
+      var menu    = document.querySelector('.menu');
+      var menuBtn = menu.querySelector('.menu-toggle');
+
+      function setMenuOpen(open) {
+        menu.classList.toggle('open', open);
+        menuBtn.setAttribute('aria-expanded', String(open));
+      }
+
+      menuBtn.addEventListener('click', function () {
+        setMenuOpen(!menu.classList.contains('open'));
+      });
+
+      menu.querySelectorAll('.menu-links a').forEach(function (link) {
+        link.addEventListener('click', function () { setMenuOpen(false); });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (!menu.contains(e.target)) setMenuOpen(false);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setMenuOpen(false);
+      });
+
+      /* scroll suave com easing personalizado */
+      function smoothScrollTo(target, duration) {
+        var headerH = document.querySelector('header') ? document.querySelector('header').offsetHeight : 0;
+        var start   = window.scrollY;
+        var end     = target.getBoundingClientRect().top + start - headerH - 8;
+        var startT  = null;
+
+        function easeInOutCubic(t) {
+          return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        function step(ts) {
+          if (!startT) startT = ts;
+          var elapsed  = ts - startT;
+          var progress = Math.min(elapsed / duration, 1);
+          window.scrollTo(0, start + (end - start) * easeInOutCubic(progress));
+          if (progress < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          var id = link.getAttribute('href').slice(1);
+          var el = document.getElementById(id);
+          if (!el) return;
+          e.preventDefault();
+          smoothScrollTo(el, 700);
+        });
+      });
+
+      /* animacao de entrada e saida ao rolar */
       if (!('IntersectionObserver' in window)) return;
 
-      var cards = document.querySelectorAll('.feature-card, .reveal');
-      document.documentElement.classList.add('reveal-ready');
+      var items = document.querySelectorAll('.feature-card, .reveal');
+      html.classList.add('reveal-ready');
 
-      // entra ao aparecer na tela e sai ao deixar a tela
       var observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           entry.target.classList.toggle('is-visible', entry.isIntersecting);
         });
       }, { threshold: 0.2 });
 
-      cards.forEach(function (card) { observer.observe(card); });
-    })();
+      items.forEach(function (el) { observer.observe(el); });
 
-    (function () {
-      var menu = document.querySelector('.menu');
-      var toggle = menu.querySelector('.menu-toggle');
-
-      function setOpen(open) {
-        menu.classList.toggle('open', open);
-        toggle.setAttribute('aria-expanded', open);
-      }
-
-      toggle.addEventListener('click', function () {
-        setOpen(!menu.classList.contains('open'));
-      });
-
-      menu.querySelectorAll('.menu-links a').forEach(function (link) {
-        link.addEventListener('click', function () { setOpen(false); });
-      });
-
-      document.addEventListener('click', function (e) {
-        if (!menu.contains(e.target)) setOpen(false);
-      });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') setOpen(false);
-      });
     })();
   </script>
 
